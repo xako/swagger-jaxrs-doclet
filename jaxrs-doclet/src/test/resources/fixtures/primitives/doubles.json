@@ -1,7 +1,7 @@
 {
     "apiVersion": "0",
     "swaggerVersion": "1.1",
-    "basePath": "http://localhost:8080",
+    "basePath": "",
     "resourcePath": "/primitives/doubles",
     "apis": [
         {

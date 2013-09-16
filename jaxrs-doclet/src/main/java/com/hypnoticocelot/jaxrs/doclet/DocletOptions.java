@@ -16,8 +16,8 @@ import static java.util.Arrays.copyOfRange;
 public class DocletOptions {
 
     private File outputDirectory;
-    private String docBasePath = "http://localhost:8080";
-    private String apiBasePath = "http://localhost:8080";
+    private String docBasePath = "";
+    private String apiBasePath = "";
     private String apiVersion = "0";
     private List<String> excludeAnnotationClasses;
     private List<String> errorTags;

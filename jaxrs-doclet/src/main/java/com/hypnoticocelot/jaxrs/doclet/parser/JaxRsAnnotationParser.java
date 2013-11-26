@@ -30,6 +30,9 @@ public class JaxRsAnnotationParser {
         try {
             Collection<ApiDeclaration> declarations = new ArrayList<ApiDeclaration>();
             for (ClassDoc classDoc : rootDoc.classes()) {
+            	if (classDoc.isAbstract()) {
+            		continue;
+            	}
                 ApiClassParser classParser = new ApiClassParser(options, classDoc);
                 Collection<Api> apis = classParser.parse();
                 if (apis.isEmpty()) {

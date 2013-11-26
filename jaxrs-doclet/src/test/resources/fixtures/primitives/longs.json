@@ -1,6 +1,6 @@
 {
     "apiVersion": "0",
-    "swaggerVersion": "1.1",
+    "swaggerVersion": "1.2",
     "basePath": "",
     "resourcePath": "/primitives/longs",
     "apis": [
@@ -11,17 +11,17 @@
                 {
                     "httpMethod": "GET",
                     "nickname": "get",
-                    "responseClass": "long"
+                    "type": "long"
                 },
                 {
                     "httpMethod": "POST",
                     "nickname": "create",
-                    "responseClass": "Response",
+                    "type": "Response",
                     "parameters": [
                         {
                             "paramType": "body",
                             "name": "value",
-                            "dataType": "long"
+                            "type": "long"
                         }
                     ]
                 }

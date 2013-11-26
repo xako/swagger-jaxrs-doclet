@@ -50,11 +50,14 @@ public class ApiMethodParser {
             if (options.isParseModels()) {
                 models.addAll(new ApiModelParser(translator, parameter.type()).parse());
             }
+            Type parameterisedType = ApiModelParser.parseParameterisedTypeOf(parameter.type());
+
             parameters.add(new ApiParameter(
                     AnnotationHelper.paramTypeOf(parameter),
                     AnnotationHelper.paramNameOf(parameter),
                     commentForParameter(methodDoc, parameter),
-                    translator.typeName(parameter.type()).value()
+                    translator.typeName(parameter.type()).value(),
+                    parameterisedType != null ? translator.typeName(parameterisedType).value() : null
             ));
         }
 
@@ -74,6 +77,8 @@ public class ApiMethodParser {
         // return type
         Type type = methodDoc.returnType();
         String returnType = translator.typeName(type).value();
+        Type returnParameterisedType = ApiModelParser.parseParameterisedTypeOf(type);
+        String returnTypeOf = returnParameterisedType != null ? translator.typeName(returnParameterisedType).value() : null; 
         if (options.isParseModels()) {
             models.addAll(new ApiModelParser(translator, type).parse());
         }
@@ -94,7 +99,8 @@ public class ApiMethodParser {
                 responseMessages,
                 firstSentences,
                 methodDoc.commentText().replace(firstSentences, ""),
-                returnType
+                returnType,
+                returnTypeOf
         );
     }
 

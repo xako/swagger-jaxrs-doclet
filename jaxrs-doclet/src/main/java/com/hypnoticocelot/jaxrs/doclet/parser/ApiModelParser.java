@@ -30,10 +30,20 @@ public class ApiModelParser {
     private void parseModel(Type type) {
         boolean isPrimitive = /* type.isPrimitive()? || */ AnnotationHelper.isPrimitive(type);
         boolean isJavaxType = type.qualifiedTypeName().startsWith("javax.");
+        boolean isJerseyType = type.qualifiedTypeName().startsWith("com.sun.jersey.");
         boolean isBaseObject = type.qualifiedTypeName().equals("java.lang.Object");
         ClassDoc classDoc = type.asClassDoc();
-        if (isPrimitive || isJavaxType || isBaseObject || classDoc == null || alreadyStoredType(type)) {
+        if (isPrimitive || isJavaxType || isJerseyType || isBaseObject || classDoc == null) {
             return;
+        }
+        
+        Type pt = parseParameterisedTypeOf(type);
+        if (pt != null) {
+            parseModel(pt);
+        }
+        
+        if (alreadyStoredType(type)) {
+        	return;
         }
 
         Map<String, Type> types = findReferencedTypes(classDoc);
@@ -101,7 +111,7 @@ public class ApiModelParser {
         }
     }
 
-    private Type parseParameterisedTypeOf(Type type) {
+    public static Type parseParameterisedTypeOf(Type type) {
         Type result = null;
         ParameterizedType pt = type.asParameterizedType();
         if (pt != null) {

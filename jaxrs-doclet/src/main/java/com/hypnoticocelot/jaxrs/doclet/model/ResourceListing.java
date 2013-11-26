@@ -24,7 +24,7 @@ public class ResourceListing {
     }
 
     public String getSwaggerVersion() {
-        return "1.1";
+        return "1.2";
     }
 
     public String getBasePath() {

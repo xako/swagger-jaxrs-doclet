@@ -1,6 +1,6 @@
 {
     "apiVersion": "0",
-    "swaggerVersion": "1.1",
+    "swaggerVersion": "1.2",
     "basePath": "",
     "resourcePath": "/foo",
     "apis": [
@@ -11,15 +11,15 @@
                 {
                     "httpMethod": "GET",
                     "nickname": "sayHello",
-                    "responseClass": "string",
+                    "type": "string",
                     "parameters": [
                         {
                             "paramType": "query",
                             "name": "name",
-                            "dataType": "string"
+                            "type": "string"
                         }
                     ],
-                	"errorResponses": [
+                	"responseMessages": [
                 	    {
                 	        "code": 404,
                 	        "reason": "not found"
@@ -29,12 +29,12 @@
                 {
                     "httpMethod": "POST",
                     "nickname": "createSpeech",
-                    "responseClass": "int",
+                    "type": "int",
                     "parameters": [
                         {
                             "paramType": "body",
                             "name": "speech",
-                            "dataType": "string"
+                            "type": "string"
                         }
                     ]
                 }
@@ -47,12 +47,12 @@
                 {
                     "httpMethod": "POST",
                     "nickname": "createSpeechWithAnnotatedPayload",
-                    "responseClass": "int",
+                    "type": "int",
                     "parameters": [
                         {
                             "paramType": "body",
                             "name": "speech",
-                            "dataType": "string"
+                            "type": "string"
                         }
                     ]
                 }

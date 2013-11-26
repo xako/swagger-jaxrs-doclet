@@ -68,8 +68,10 @@ public class AnnotationHelper {
         }
         if (type.equalsIgnoreCase("integer")) {
             type = "int";
-        } else if (type.equalsIgnoreCase("arraylist") || type.equalsIgnoreCase("linkedlist")) {
-            type = "List";
+        } else if (type.equalsIgnoreCase("bigdecimal")) { //TODO should not expose BigDecimal in APIs
+        	type = "double"; 
+        } else if (type.equalsIgnoreCase("arraylist") || type.equalsIgnoreCase("linkedlist") || type.equalsIgnoreCase("list")) {
+            type = "array";
         }
         return type;
     }

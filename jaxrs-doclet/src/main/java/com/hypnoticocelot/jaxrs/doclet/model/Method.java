@@ -12,13 +12,14 @@ public class Method {
     private String firstSentence;
     private String comment;
     private String returnType;
+    private String returnTypeOf;
     private String path;
 
     @SuppressWarnings("unused")
     private Method() {
     }
 
-    public Method(HttpMethod method, String methodName, String path, List<ApiParameter> apiParameters, List<ApiResponseMessage> responseMessages, String firstSentence, String comment, String returnType) {
+    public Method(HttpMethod method, String methodName, String path, List<ApiParameter> apiParameters, List<ApiResponseMessage> responseMessages, String firstSentence, String comment, String returnType, String returnTypeOf) {
         this.method = method;
         this.methodName = methodName;
         this.path = path;
@@ -27,6 +28,7 @@ public class Method {
         this.firstSentence = firstSentence;
         this.comment = comment;
         this.returnType = returnType;
+        this.returnTypeOf = returnTypeOf;
     }
 
     public HttpMethod getMethod() {
@@ -65,6 +67,10 @@ public class Method {
         this.returnType = returnType;
     }
 
+    public String getReturnTypeOf() {
+        return returnTypeOf;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,6 +83,7 @@ public class Method {
                 && Objects.equal(firstSentence, that.firstSentence)
                 && Objects.equal(comment, that.comment)
                 && Objects.equal(returnType, that.returnType)
+                && Objects.equal(returnTypeOf, that.returnTypeOf)
                 && Objects.equal(path, that.path);
     }
 
@@ -95,6 +102,7 @@ public class Method {
                 .add("firstSentence", firstSentence)
                 .add("comment", comment)
                 .add("returnType", returnType)
+                .add("returnTypeOf", returnTypeOf)
                 .add("path", path)
                 .toString();
     }

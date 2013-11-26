@@ -19,7 +19,8 @@ public class Property {
     private String containerOf;
     private AllowableValues allowableValues;
 
-    private Property() {
+    @SuppressWarnings("unused")
+	protected Property() {
     }
 
     public Property(String type, String description, String containerOf) {

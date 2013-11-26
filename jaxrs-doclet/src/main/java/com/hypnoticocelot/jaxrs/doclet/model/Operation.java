@@ -1,10 +1,11 @@
 package com.hypnoticocelot.jaxrs.doclet.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.hypnoticocelot.jaxrs.doclet.parser.AnnotationHelper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.base.Strings.emptyToNull;
 
@@ -12,12 +13,12 @@ public class Operation {
 
     private HttpMethod httpMethod;
     private String nickname;
-    private String responseClass; // void, primitive, complex or a container
+    private String type; // void, primitive, complex or a container
+    private String containerType; // type of the container
     private List<ApiParameter> parameters;
     private String summary; // cap at 60 characters for readability in the UI
     private String notes;
 
-    @JsonProperty("errorResponses")                    // swagger 1.1 name
     private List<ApiResponseMessage> responseMessages; // swagger 1.2 name
 
     @SuppressWarnings("unused")
@@ -27,7 +28,8 @@ public class Operation {
     public Operation(Method method) {
         this.httpMethod = method.getMethod();
         this.nickname = emptyToNull(method.getMethodName());
-        this.responseClass = emptyToNull(AnnotationHelper.typeOf(method.getReturnType()));
+        this.type = emptyToNull(AnnotationHelper.typeOf(method.getReturnType()));
+        this.containerType = method.getReturnTypeOf() != null ? emptyToNull(AnnotationHelper.typeOf(method.getReturnTypeOf())) : null;
         this.parameters = method.getParameters().isEmpty() ? null : method.getParameters();
         this.responseMessages = method.getResponseMessages().isEmpty() ? null : method.getResponseMessages();
         this.summary = emptyToNull(method.getFirstSentence());
@@ -42,8 +44,8 @@ public class Operation {
         return nickname;
     }
 
-    public String getResponseClass() {
-        return responseClass;
+    public String getType() {
+        return type;
     }
 
     public List<ApiParameter> getParameters() {
@@ -62,6 +64,15 @@ public class Operation {
         return notes;
     }
 
+
+    public Map<String, String> getItems() {
+        Map<String, String> result = null;
+        if (containerType != null) {
+            result = new HashMap<String, String>();
+            result.put("$ref", containerType);
+        }
+        return result;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,7 +80,8 @@ public class Operation {
         Operation that = (Operation) o;
         return Objects.equal(httpMethod, that.httpMethod)
                 && Objects.equal(nickname, that.nickname)
-                && Objects.equal(responseClass, that.responseClass)
+                && Objects.equal(type, that.type)
+                && Objects.equal(containerType, that.containerType)
                 && Objects.equal(parameters, that.parameters)
                 && Objects.equal(responseMessages, that.responseMessages)
                 && Objects.equal(summary, that.summary)
@@ -78,7 +90,7 @@ public class Operation {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(httpMethod, nickname, responseClass, parameters, responseMessages, summary, notes);
+        return Objects.hashCode(httpMethod, nickname, type, parameters, responseMessages, summary, notes);
     }
 
     @Override
@@ -86,7 +98,7 @@ public class Operation {
         return Objects.toStringHelper(this)
                 .add("httpMethod", httpMethod)
                 .add("nickname", nickname)
-                .add("responseClass", responseClass)
+                .add("type", type)
                 .add("parameters", parameters)
                 .add("responseMessages", responseMessages)
                 .add("summary", summary)

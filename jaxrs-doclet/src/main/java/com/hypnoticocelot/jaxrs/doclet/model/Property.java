@@ -2,6 +2,7 @@ package com.hypnoticocelot.jaxrs.doclet.model;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.hypnoticocelot.jaxrs.doclet.parser.AnnotationHelper;
 import com.sun.javadoc.FieldDoc;
 
 import java.util.ArrayList;
@@ -14,9 +15,9 @@ import static com.google.common.collect.Lists.transform;
 import static java.util.Arrays.asList;
 
 public class Property {
-    private String type;
+    protected String type;
     private String description;
-    private String containerOf;
+    protected String containerOf;
     private AllowableValues allowableValues;
 
     @SuppressWarnings("unused")
@@ -34,7 +35,7 @@ public class Property {
             allowableValues = new AllowableValues(values);
         }
     }
-
+    
     public Property(FieldDoc[] enumConstants, String description) {
         this.type = "string";
         this.description = description;
@@ -62,7 +63,7 @@ public class Property {
         Map<String, String> result = null;
         if (containerOf != null) {
             result = new HashMap<String, String>();
-            result.put("$ref", containerOf);
+            result.put(AnnotationHelper.isPrimitive(containerOf) ? "type" : "$ref", containerOf);
         }
         return result;
     }

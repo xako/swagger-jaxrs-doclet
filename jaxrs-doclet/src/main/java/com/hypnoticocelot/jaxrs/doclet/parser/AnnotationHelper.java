@@ -17,6 +17,8 @@ public class AnnotationHelper {
     private static final String JAX_RS_QUERY_PARAM = "javax.ws.rs.QueryParam";
     private static final String JERSEY_MULTIPART_FORM_PARAM = "com.sun.jersey.multipart.FormDataParam";
     
+    public static final String ARRAY_TYPE = "array";
+    
     @SuppressWarnings("serial")
     static final List<String> PRIMITIVES = new ArrayList<String>() {{
         add("byte");
@@ -71,7 +73,7 @@ public class AnnotationHelper {
         } else if (type.equalsIgnoreCase("bigdecimal")) { //TODO should not expose BigDecimal in APIs
         	type = "double"; 
         } else if (type.equalsIgnoreCase("arraylist") || type.equalsIgnoreCase("linkedlist") || type.equalsIgnoreCase("list")) {
-            type = "array";
+            type = ARRAY_TYPE;
         }
         return type;
     }
@@ -108,7 +110,15 @@ public class AnnotationHelper {
     }
 
     public static boolean isPrimitive(Type type) {
-        return PRIMITIVES.contains(typeOf(type.qualifiedTypeName()));
+        return isPrimitive(typeOf(type.qualifiedTypeName()));
+    }
+    
+    public static boolean isPrimitive(String typeString) {
+        return PRIMITIVES.contains(typeString);
+    }
+    
+    public static boolean isContainerType(String typeString) {
+    	return ARRAY_TYPE.equalsIgnoreCase(typeString);
     }
 
     public static class ExcludedAnnotations implements Predicate<AnnotationDesc> {

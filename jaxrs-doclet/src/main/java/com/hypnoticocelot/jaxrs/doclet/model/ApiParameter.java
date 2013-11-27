@@ -1,6 +1,7 @@
 package com.hypnoticocelot.jaxrs.doclet.model;
 
 import com.google.common.base.Objects;
+import com.hypnoticocelot.jaxrs.doclet.parser.AnnotationHelper;
 
 public class ApiParameter extends Property {
     private String paramType;
@@ -14,6 +15,11 @@ public class ApiParameter extends Property {
         this.paramType = paramType;
         this.name = name;
     }
+    
+    @Override
+    public String getType() {
+    	return AnnotationHelper.isContainerType(type) && paramType.equals("query") ? containerOf : type;
+    }
 
     public String getParamType() {
         return paramType;
@@ -25,6 +31,10 @@ public class ApiParameter extends Property {
 
     public boolean getRequired() {
         return !paramType.equals("query");
+    }
+
+    public boolean getAllowMultiple() {
+    	return AnnotationHelper.isContainerType(type) && paramType.equals("query");
     }
 
     @Override
@@ -47,6 +57,7 @@ public class ApiParameter extends Property {
         	+ Objects.toStringHelper(this)
                 .add("name", name)
                 .add("paramType", paramType)
+                .add("allowMultiple", getAllowMultiple())
                 .toString();
     }
 }

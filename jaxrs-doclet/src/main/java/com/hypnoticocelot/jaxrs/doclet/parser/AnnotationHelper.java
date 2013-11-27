@@ -58,7 +58,8 @@ public class AnnotationHelper {
             type = javaType.substring(i + 1).toLowerCase();
         } else if (PRIMITIVES.contains(javaType.toLowerCase())) {
             type = javaType.toLowerCase();
-        } else if (javaType.equals("java.util.Date")) {
+        } else if (javaType.equals("java.util.Date")
+        		|| javaType.equals("org.joda.time.Instant")) {
             type = "Date";
         } else {
             int i = javaType.lastIndexOf(".");

@@ -11,8 +11,10 @@ public class NameBasedTranslator implements Translator {
 
     @Override
     public OptionalName typeName(Type type) {
+    	type = TypeHelper.extractDropwizardType(type);
         return presentOrMissing(AnnotationHelper.typeOf(type.qualifiedTypeName()));
     }
+
 
     @Override
     public OptionalName fieldName(FieldDoc field) {

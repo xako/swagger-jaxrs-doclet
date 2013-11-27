@@ -48,6 +48,7 @@ public class AnnotationAwareTranslator implements Translator {
 
     @Override
     public OptionalName typeName(Type type) {
+    	type = TypeHelper.extractDropwizardType(type);
         if (namedTypes.containsKey(type)) {
             return namedTypes.get(type);
         }

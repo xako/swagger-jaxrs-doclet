@@ -42,38 +42,40 @@
     </dependencies>
 
     <build>
+    	<resources>
+    		<resource>
+    			<directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>swagger-ui/**/*</exclude>
+                </excludes>
+                <filtering>false</filtering>
+            </resource>
+    	</resources>
         <plugins>
-            <plugin>
+        	<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>1.6</version>
-                <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <filters>
-                        <filter>
-                            <artifact>*:*</artifact>
-                            <excludes>
-                                <exclude>META-INF/*.SF</exclude>
-                                <exclude>META-INF/*.DSA</exclude>
-                                <exclude>META-INF/*.RSA</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+        		<artifactId>maven-assembly-plugin</artifactId>
+        		<configuration>
+        			<formats>
+        				<format>zip</format>
+       				</formats>
+       				<attach>false</attach>
+       				<finalName>swagger-ui</finalName>
+       				<appendAssemblyId>false</appendAssemblyId>
+       				<outputDirectory>${project.build.directory}/classes</outputDirectory>
+       				<descriptors>
+       					<descriptor>${basedir}/src/main/assembly/assembly.xml</descriptor>
+       				</descriptors>
+        		</configuration>
+        		<executions>
+        			<execution>
+        				<phase>generate-resources</phase>
+        				<goals>
+        					<goal>single</goal>
+        				</goals>
+        			</execution>
+        		</executions>
+        	</plugin>
         </plugins>
     </build>
 
@@ -92,7 +94,7 @@
                     <artifactId>tools</artifactId>
                     <version>1.7.0</version>
                     <scope>system</scope>
-                    <systemPath>${java.home}/../lib/tools.jar</systemPath>
+                    <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
                 </dependency>
             </dependencies>
         </profile>
